@@ -1,0 +1,1 @@
+recursive-include counter/templates *.html

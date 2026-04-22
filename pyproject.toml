@@ -12,6 +12,12 @@ dependencies = [
     "psycopg[binary]>=3.2,<4.0",
 ]
 
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+counter = ["templates/**/*.html"]
+
 [tool.setuptools.packages.find]
 include = ["aws_demo*", "counter*"]
 exclude = ["venv*", "tests*"]
