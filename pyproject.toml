@@ -18,6 +18,9 @@ test = [
     "pytest-django>=4.8,<5.0",
 ]
 
+[project.scripts]
+aws-demo-manage = "aws_demo.manage:main"
+
 [tool.setuptools]
 include-package-data = true
 
