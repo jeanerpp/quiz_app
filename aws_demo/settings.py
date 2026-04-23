@@ -74,20 +74,22 @@ WSGI_APPLICATION = 'aws_demo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# Use PostgreSQL on AWS when RDS settings are provided; otherwise default to local SQLite.
+# Use MySQL on AWS when RDS settings are provided; otherwise default to local SQLite.
 if os.getenv('RDS_HOSTNAME') and os.getenv('RDS_DB_NAME') and os.getenv('RDS_USERNAME'):
+    mysql_options = {}
+    if os.getenv('RDS_SSL_CA'):
+        mysql_options['ssl'] = {'ca': os.getenv('RDS_SSL_CA')}
+
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
+            'ENGINE': 'django.db.backends.mysql',
             'NAME': os.getenv('RDS_DB_NAME'),
             'USER': os.getenv('RDS_USERNAME'),
             'PASSWORD': os.getenv('RDS_PASSWORD', ''),
             'HOST': os.getenv('RDS_HOSTNAME'),
-            'PORT': os.getenv('RDS_PORT', '5432'),
+            'PORT': os.getenv('RDS_PORT', '3306'),
             'CONN_MAX_AGE': int(os.getenv('DB_CONN_MAX_AGE', '60')),
-            'OPTIONS': {
-                'sslmode': os.getenv('RDS_SSLMODE', 'require'),
-            },
+            'OPTIONS': mysql_options,
         }
     }
 else:
